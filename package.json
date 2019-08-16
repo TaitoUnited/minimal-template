@@ -1,0 +1,119 @@
+{
+  "name": "minimal-template",
+  "scripts": {
+    "install-dev": "echo TODO install some additional libs needed on host for autocompletion/linting only",
+    "start": "echo TODO start the application",
+    "start:clean": "echo TODO cleanly start the application",
+    "stop": "echo TODO stop application",
+    "init": "echo TODO initialize resources \\(database, etc.\\)",
+    "init:clean": "echo TODO clean and initialize resources \\(database, etc.\\)",
+    "clean": "rm -rf node_modules && echo TODO clean everything",
+    "info": "echo TODO show info",
+    "lint": "echo TODO lint code",
+    "unit": "echo TODO run unit tests",
+    "test": "echo TODO run e2e and integration tests",
+    "check-code": "docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate engines:install && docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze",
+    "taito-host-check-code": "npm run check-code",
+    "check-size": "echo TODO check build bundle size",
+    "precommit:branch": "if git-branch-is -q test || git-branch-is -q stag || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
+    "precommit:lint": "echo TODO lint on commit?",
+    "release-pre:prod": "semantic-release --dry-run",
+    "release-post:prod": "semantic-release --no-ci"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "if [[ $taito_mode != 'ci' ]]; then npm run precommit:branch && npm run precommit:lint; fi",
+      "pre-push": "if [[ $taito_mode != 'ci' ]]; then npm-run-all --parallel lint unit; fi"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "wip",
+          "feat",
+          "fix",
+          "docs",
+          "style",
+          "refactor",
+          "perf",
+          "test",
+          "revert",
+          "build",
+          "ci",
+          "chore"
+        ]
+      ]
+    }
+  },
+  "release": {
+    "npmPublish": false,
+    "analyzeCommits": {
+      "preset": "angular",
+      "releaseRules": [
+        {
+          "type": "feat",
+          "release": "minor"
+        },
+        {
+          "type": "fix",
+          "release": "patch"
+        },
+        {
+          "type": "docs",
+          "release": "patch"
+        },
+        {
+          "type": "style",
+          "release": "patch"
+        },
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "perf",
+          "release": "patch"
+        },
+        {
+          "type": "test",
+          "release": "patch"
+        },
+        {
+          "type": "revert",
+          "release": "patch"
+        },
+        {
+          "type": "build",
+          "release": "patch"
+        },
+        {
+          "type": "ci",
+          "release": "patch"
+        },
+        {
+          "type": "chore",
+          "release": "patch"
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaitoUnited/minimal-template.git"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "8.1.0",
+    "@commitlint/config-conventional": "8.1.0",
+    "git-branch-is": "2.1.0",
+    "husky": "3.0.2",
+    "npm-run-all": "~4.1.5",
+    "semantic-release": "15.13.19"
+  }
+}
