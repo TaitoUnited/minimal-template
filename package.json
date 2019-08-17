@@ -3,8 +3,8 @@
   "scripts": {
     "install-dev": "echo TODO install some additional libs needed on host for autocompletion/linting only",
     "start": "echo TODO start the application",
-    "start:clean": "echo TODO cleanly start the application",
-    "start:restart": "npm run start",
+    "start:clean": "echo TODO clean build artifacts && npm run start",
+    "start:restart:init:clean": "npm-run-all stop start:clean init",
     "stop": "echo TODO stop application",
     "init": "echo TODO initialize resources \\(database, etc.\\)",
     "init:clean": "echo TODO clean and initialize resources \\(database, etc.\\)",
