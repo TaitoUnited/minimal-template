@@ -23,7 +23,7 @@ esac
 
 # Links
 link_urls="
-  * client[:ENV]=$taito_app_url Application GUI (:ENV)
+  * app[:ENV]=$taito_app_url Application GUI (:ENV)
 "
 
 # Stack

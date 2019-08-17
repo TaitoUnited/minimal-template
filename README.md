@@ -4,7 +4,7 @@
 
 # minimal-template
 
-Minimal project template for Taito CLI. It includes support for version control (git hooks, taito version control commands, semantic-release), CI/CD, links, and npm. It also provides some documentation templates (README.md, DEVELOPMENT.md).
+Minimal project template for Taito CLI. It includes support for version control, links, and npm. It also provides CI/CD templates for multiple providers, and some documentation templates.
 
 You can create a new project from this template by running `taito project create: minimal-template`.
 
