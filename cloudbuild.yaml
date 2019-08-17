@@ -1,0 +1,92 @@
+images: [
+]
+timeout: 1000s
+
+# If you want to grant outsiders access to your build logs, you may save
+# the logs to a separate bucket determined by the logsBucket setting and
+# grant the outsiders access to the bucket
+# logsBucket: 'gs://my-builds'
+
+substitutions:
+  _REPO_NAME: minimal-template
+
+steps:
+
+# NOTE: This first step is an optimization. We execute CI/CD build cancel with
+# the google provided gcloud container instead of Taito CLI, because it
+# doesn't need to be pulled before execution -> cancel executes immediately.
+- id: manual-cancel
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  env:
+    - branch_name=$BRANCH_NAME
+    - build_id=$BUILD_ID
+    - full_repo_name=$_REPO_NAME
+  args:
+  - '-c'
+  - |
+    export taito_target_env="$${branch_name//master/prod}"
+    source ./taito-config.sh
+    echo "- Cancel all previous ongoing builds targetting the same branch"
+    gcloud builds list --ongoing | \
+      grep "$${full_repo_name}@$${branch_name}" | \
+      grep -v "$${build_id}" | \
+      cut -d ' ' -f 1 | \
+      xargs -L1 gcloud builds cancel 2> /dev/null || :
+
+# ----------------------- Taito CLI ----------------------------------
+
+# Prepare build
+
+- id: build-prepare
+  waitFor: ['-']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['build-prepare:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+
+# Build artifacts in parallel
+
+- id: artifact-prepare-app
+  waitFor: ['build-prepare']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-prepare:app:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+
+# Deploy to target environment
+
+- id: deployment-deploy
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['deployment-deploy:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+
+# Test and verify deployment
+
+- id: deployment-wait
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['deployment-wait:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: test
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['test:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+    - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+
+- id: deployment-verify
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['deployment-verify:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+# Release build
+
+- id: build-release
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['build-release:$BRANCH_NAME']
+  env:
+    - taito_mode=ci

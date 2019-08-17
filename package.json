@@ -12,11 +12,19 @@
     "lint": "echo TODO lint code",
     "unit": "echo TODO run unit tests",
     "test": "echo TODO run e2e and integration tests",
+    "check-size": "echo TODO check build bundle size",
     "check-code": "docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate engines:install && docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze",
     "taito-host-check-code": "npm run check-code",
-    "check-size": "echo TODO check build bundle size",
+
+    "_FOR_GIT_HOOKS": "",
     "precommit:branch": "if git-branch-is -q test || git-branch-is -q stag || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
     "precommit:lint": "echo TODO lint on commit?",
+
+    "_FOR_CI_CD": "",
+    "artifact-prepare:app": "echo TODO prepare app artifact for deploy",
+    "deployment-deploy:dev": "echo TODO deploy artifacts to dev",
+    "deployment-deploy:prod": "echo TODO deploy artifacts to prod",
+    "artifact-release:app": "echo TODO release app artifact (optional)",
     "release-pre:prod": "semantic-release --dry-run",
     "release-post:prod": "semantic-release --no-ci"
   },
