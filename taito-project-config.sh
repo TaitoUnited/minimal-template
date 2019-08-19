@@ -24,6 +24,7 @@ esac
 # Links
 link_urls="
   * app[:ENV]=$taito_app_url Application GUI (:ENV)
+  * git=https://$taito_vc_repository_url Git repository
 "
 
 # Stack
