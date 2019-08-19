@@ -4,9 +4,9 @@
 
 # minimal-template
 
-Minimal project template for Taito CLI. It includes support for version control, links, and npm. It also provides CI/CD templates for multiple providers, and some documentation templates.
+Minimal project template for Taito CLI. It includes support for version control, code quality checking, links, and npm. It also provides CI/CD templates for multiple providers, and some documentation templates.
 
-You can create a new project from this template by running `taito project create: minimal-template`.
+You can create a new project from this template by running `taito project create: minimal-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. You can also migrate an existing project that does not currently use Taito CLI by running `taito project migrate: minimal-template` in your project root folder.
 
 [//]: # (TEMPLATE NOTE END)
 # Project title

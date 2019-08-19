@@ -13,7 +13,7 @@ This file has been copied from [MINIMAL-TEMPLATE](https://github.com/TaitoUnited
 2. Modify `taito-project-config.sh` if you need to change some settings. The default settings are ok for most projects, but you might want to add some links.
 3. Run `taito project apply` (or without taito: define links in `README.md` manually).
 4. Implement the most important TODOs in `package.json`. At least implement the `install-dev` and `start` scripts as they are mandatory for starting the application.
-5. Start the local development environment with `taito kaboom` (or without taito: `npm install`, `npm run install-dev`, `npm start`).
+5. Start the local development environment with `taito kaboom` (or without taito: `npm install`, `npm run install-dev`, `npm run start`, `npm run init`).
 6. Commit and push changes.
 
 * [ ] All done
