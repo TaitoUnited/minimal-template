@@ -1,5 +1,4 @@
 #!/bin/bash -e
-
 : "${template_project_path:?}"
 
 ${taito_setv:-}
