@@ -81,6 +81,15 @@ steps:
   env:
     - taito_mode=ci
 
+# Release artifacts in parallel
+
+- id: artifact-release-app
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:app:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+
 # Release build
 
 - id: build-release
