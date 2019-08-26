@@ -1,5 +1,3 @@
-images: [
-]
 timeout: 1000s
 
 # If you want to grant outsiders access to your build logs, you may save
